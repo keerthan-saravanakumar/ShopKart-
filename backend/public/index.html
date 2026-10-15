@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopKart Auth</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f5f7;
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+        }
+        .card {
+            width: min(430px, 92vw);
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.08);
+        }
+        h1 { margin: 0 0 8px; }
+        p { color: #666; }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 7px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border: 0;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #111827;
+            color: white;
+            font-weight: bold;
+        }
+        button.secondary { background: #e5e7eb; color: #111827; }
+        .section { margin-top: 24px; }
+        pre {
+            white-space: pre-wrap;
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+            min-height: 50px;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>ShopKart 🛒</h1>
+    <p>Authentication tester</p>
+
+    <div class="section">
+        <h3>Register</h3>
+        <input id="fullName" placeholder="Full name" value="John Doe">
+        <input id="registerEmail" placeholder="Email" value="john@gmail.com">
+        <input id="registerPassword" type="password" placeholder="Password" value="john123">
+        <input id="phone" placeholder="Phone" value="9876543210">
+        <button onclick="register()">Register</button>
+    </div>
+
+    <div class="section">
+        <h3>Login</h3>
+        <input id="loginEmail" placeholder="Email" value="john@gmail.com">
+        <input id="loginPassword" type="password" placeholder="Password" value="john123">
+        <button onclick="login()">Login</button>
+    </div>
+
+    <div class="section">
+        <h3>Protected APIs</h3>
+        <button onclick="profile()">Get My Profile</button>
+        <button onclick="logout()" class="secondary">Logout</button>
+    </div>
+
+    <h3>Response</h3>
+    <pre id="result">Waiting...</pre>
+</div>
+
+<script>
+const result = document.getElementById("result");
+
+async function register() {
+    const response = await fetch("/customers/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            fullName: document.getElementById("fullName").value,
+            email: document.getElementById("registerEmail").value,
+            password: document.getElementById("registerPassword").value,
+            phone: document.getElementById("phone").value
+        })
+    });
+    result.textContent = JSON.stringify(await response.json(), null, 2);
+}
+
+async function login() {
+    const response = await fetch("/customers/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+            email: document.getElementById("loginEmail").value,
+            password: document.getElementById("loginPassword").value
+        })
+    });
+    result.textContent = JSON.stringify(await response.json(), null, 2);
+}
+
+async function profile() {
+    const response = await fetch("/customers/me", {
+        method: "GET",
+        credentials: "include"
+    });
+    result.textContent = JSON.stringify(await response.json(), null, 2);
+}
+
+async function logout() {
+    const response = await fetch("/customers/logout", {
+        method: "POST",
+        credentials: "include"
+    });
+    result.textContent = JSON.stringify(await response.json(), null, 2);
+}
+</script>
+</body>
+</html>
