@@ -188,33 +188,42 @@ Ensure the following are installed or available:
 * A Razorpay account with Test Mode API keys for testing the payment integration.
 * Git, if you want to clone the repository.
 
+
 ### 1. Clone the Repository
 
+Clone the repository and navigate to the project directory:
+
 ```bash
-git clone <YOUR_GITHUB_REPOSITORY_URL>
-cd ShopKart
+git clone https://github.com/keerthan-saravanakumar/ShopKart-.git
+cd ShopKart-
 ```
+
+The project contains separate frontend and backend applications. Each application has its own dependencies and environment configuration.
+
 
 Replace `<YOUR_GITHUB_REPOSITORY_URL>` with the actual GitHub repository URL.
 
 ### 2. Configure the Backend
 
-Navigate to the backend directory:
+Open a terminal in the project root and navigate to the backend directory:
 
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file by copying `.env.example`.
+Create your local environment configuration file from the provided example.
 
-On Windows PowerShell:
+**Windows PowerShell:**
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Open the newly created `.env` file and configure the required environment variables.
+Open `backend/.env` and configure your MongoDB connection string, JWT secret, and Razorpay Test Mode credentials.
+
+Keep this file private. Never commit your actual `.env` file to GitHub.
+
 
 ### 3. Configure the Frontend
 
